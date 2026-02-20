@@ -244,8 +244,18 @@ find_busybox() {
     if [ -d "$search_path" ]; then
         found=$( $FIND_CMD "$search_path" -type f -name "busybox" -exec test -x {} \; -print 2>/dev/null | $HEAD_CMD -n 1 )
         if [ -n "$found" ] && [ -x "$found" ]; then
-            BUSYBOX_CMD="$found"
-            printf "\033[36mFound alternative busybox: $BUSYBOX_CMD\033[0m\n" >&2
+            printf "\033[36mFound alternative busybox: $found\033[0m\n" >&2
+            printf "\033[33mIts security cannot be guaranteed. Do you want to use it? (y/n): \033[0m" >&2
+            read ans
+            case "$ans" in
+                [yY]|[yY][eE][sS])
+                    BUSYBOX_CMD="$found"
+                    printf "\033[32mUsing $BUSYBOX_CMD\033[0m\n" >&2
+                    ;;
+                *)
+                    printf "\033[33mNot using the found busybox.\033[0m\n" >&2
+                    ;;
+            esac
         fi
     fi
 }

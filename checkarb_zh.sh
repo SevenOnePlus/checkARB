@@ -243,8 +243,18 @@ find_busybox() {
     if [ -d "$search_path" ]; then
         found=$( $FIND_CMD "$search_path" -type f -name "busybox" -exec test -x {} \; -print 2>/dev/null | $HEAD_CMD -n 1 )
         if [ -n "$found" ] && [ -x "$found" ]; then
-            BUSYBOX_CMD="$found"
-            printf "\033[36m找到备用 busybox: $BUSYBOX_CMD\033[0m\n" >&2
+            printf "\033[36m找到备用 busybox: $found\033[0m\n" >&2
+            printf "\033[33m无法保证其安全性，你确定要使用吗？(y/n): \033[0m" >&2
+            read ans
+            case "$ans" in
+                [yY]|[yY][eE][sS])
+                    BUSYBOX_CMD="$found"
+                    printf "\033[32m正在使用 $BUSYBOX_CMD\033[0m\n" >&2
+                    ;;
+                *)
+                    printf "\033[33m不启用找到的 busybox。\033[0m\n" >&2
+                    ;;
+            esac
         fi
     fi
 }
