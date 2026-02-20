@@ -1,6 +1,6 @@
 # checkARB
 
-[**English**](#english) | [**中文**](#https://github.com/Dere3046/checkARB/blob/main/README_zh.md)
+[**English**](#english) | [**中文**](https://github.com/Dere3046/checkARB/blob/main/README_zh.md)
 
 ---
 
